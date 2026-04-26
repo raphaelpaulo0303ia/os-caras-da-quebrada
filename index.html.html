@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pitch - Os Caras da Quebrada</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; font-family: 'Barlow', sans-serif; color: #fff; overflow-x: hidden; }
+
+  .slide { width: 100%; min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+
+  /* NAV DOTS */
+  .nav-dots { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 999; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.3s; border: none; }
+  .dot.active { background: #FFD700; transform: scale(1.4); }
+
+  /* ===================== SLIDE 1 — INTRO ===================== */
+  #slide-1 { background: #0B1829; justify-content: center; align-items: center; min-height: 100vh; }
+  .s1-bg { position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,80,160,0.06) 40px, rgba(0,80,160,0.06) 41px); }
+  .s1-stripe { position: absolute; bottom: 0; left: 0; right: 0; height: 8px; background: repeating-linear-gradient(90deg, #009C3B 0 33.3%, #FFD700 33.3% 66.6%, #0047AB 66.6% 100%); }
+  .s1-stripe-top { top: 0; bottom: auto; }
+  .s1-content { position: relative; z-index: 2; text-align: center; padding: 60px 40px; }
+  .s1-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 6px; color: #FFD700; text-transform: uppercase; margin-bottom: 24px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+  .s1-logo-wrap { display: flex; justify-content: center; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+  .s1-logo-img { width: 100%; max-width: 400px; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6)); }
+  .s1-subtitle { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(18px, 3vw, 28px); font-weight: 400; letter-spacing: 8px; color: rgba(255,255,255,0.6); text-transform: uppercase; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+  .s1-badge { display: inline-block; background: #0047AB; border: 1px solid rgba(255,215,0,0.4); padding: 10px 28px; font-family: 'Barlow Condensed', sans-serif; font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: #FFD700; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+  .s1-events { display: flex; gap: 16px; justify-content: center; margin-top: 48px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 1s forwards; }
+  .event-pill { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.15); padding: 10px 20px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; letter-spacing: 2px; text-transform: uppercase; }
+  .event-color { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ===================== SLIDE 2 — PROPOSTA ===================== */
+  #slide-2 { background: #060C14; justify-content: center; padding: 80px 40px; }
+  .s2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1100px; margin: 0 auto; align-items: center; width: 100%; }
+  .s2-photo { width: 100%; max-width: 380px; display: block; margin: 0 auto; filter: drop-shadow(0 0 30px rgba(0,71,171,0.5)); border-bottom: 4px solid #0047AB; }
+  .s2-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #FFD700; margin-bottom: 20px; }
+  .s2-heading { font-family: 'Bebas Neue', cursive; font-size: clamp(48px, 6vw, 80px); line-height: 0.95; color: #fff; margin-bottom: 24px; }
+  .s2-heading span { color: #0070F3; }
+  .s2-text { font-size: 16px; line-height: 1.8; color: rgba(255,255,255,0.65); margin-bottom: 32px; }
+  .s2-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .s2-card { background: rgba(255,255,255,0.04); border-left: 3px solid #0047AB; padding: 20px 24px; }
+  .s2-card-num { font-family: 'Bebas Neue', cursive; font-size: 36px; color: #0070F3; line-height: 1; margin-bottom: 4px; }
+  .s2-card-label { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .s2-card-desc { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 6px; line-height: 1.5; }
+
+  /* ===================== SLIDE 3 — EVENTOS ===================== */
+  #slide-3 { background: #08080F; padding: 80px 40px; justify-content: center; }
+  .s3-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .s3-header { text-align: center; margin-bottom: 60px; }
+  .s3-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #FFD700; margin-bottom: 16px; }
+  .s3-title { font-family: 'Bebas Neue', cursive; font-size: clamp(40px, 5vw, 64px); color: #fff; }
+  .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .ev-card { padding: 32px; position: relative; overflow: hidden; border: 0.5px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; }
+  .ev-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .ev-card.blue::before { background: #0047AB; }
+  .ev-card.green::before { background: #009C3B; }
+  .ev-card.yellow::before { background: #FFD700; }
+  .ev-card.red::before { background: #CC0000; }
+  .ev-card.white::before { background: #E8E8E8; }
+  .ev-card.blue { background: rgba(0,71,171,0.08); }
+  .ev-card.green { background: rgba(0,156,59,0.08); }
+  .ev-card.yellow { background: rgba(255,215,0,0.06); }
+  .ev-card.red { background: rgba(204,0,0,0.08); }
+  .ev-card.white { background: rgba(255,255,255,0.05); }
+  
+  /* ESTILOS DA CAMISA */
+  .ev-shirt-img { width: 100%; height: 200px; object-fit: contain; border-radius: 8px; margin-bottom: 24px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); padding: 10px; }
+  .ev-shirt-placeholder { width: 100%; height: 200px; border-radius: 8px; margin-bottom: 24px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 2px; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+
+  .ev-number { font-family: 'Bebas Neue', cursive; font-size: 64px; line-height: 1; margin-bottom: 8px; opacity: 0.15; position: absolute; top: 16px; right: 24px; pointer-events: none; }
+  .ev-card.blue .ev-number { color: #0070F3; }
+  .ev-card.green .ev-number { color: #00CC44; }
+  .ev-card.yellow .ev-number { color: #FFD700; }
+  .ev-card.red .ev-number { color: #FF3333; }
+  .ev-card.white .ev-number { color: #fff; opacity: 0.2; }
+  .ev-event-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+  .ev-name { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #fff; margin-bottom: 12px; }
+  .ev-cor { font-family: 'Bebas Neue', cursive; font-size: 32px; line-height: 1; margin-bottom: 16px; }
+  .ev-card.blue .ev-cor { color: #0070F3; }
+  .ev-card.green .ev-cor { color: #00CC44; }
+  .ev-card.yellow .ev-cor { color: #FFD700; }
+  .ev-card.red .ev-cor { color: #FF5555; }
+  .ev-card.white .ev-cor { color: #fff; }
+  .ev-detail { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; flex-grow: 1; }
+  .ev-tag { display: inline-block; margin-top: 16px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; padding: 4px 12px; border: 0.5px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); align-self: flex-start; }
+
+  /* ===================== SLIDE 4 — IMPACTO ===================== */
+  #slide-4 { background: #030608; padding: 80px 40px; justify-content: center; }
+  .s4-inner { max-width: 1000px; margin: 0 auto; width: 100%; }
+  .s4-header { margin-bottom: 60px; }
+  .s4-label { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: #FFD700; margin-bottom: 16px; }
+  .s4-title { font-family: 'Bebas Neue', cursive; font-size: clamp(48px, 7vw, 88px); line-height: 0.95; color: #fff; }
+  .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.08); margin-bottom: 40px; }
+  .impact-stat { background: #030608; padding: 40px 24px; text-align: center; }
+  .impact-num { font-family: 'Bebas Neue', cursive; font-size: clamp(52px, 7vw, 80px); color: #FFD700; line-height: 1; margin-bottom: 8px; }
+  .impact-desc { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+  .impact-quote { border-left: 3px solid #0047AB; padding: 24px 32px; background: rgba(0,71,171,0.06); }
+  .impact-quote p { font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.75); font-style: italic; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+  .pillar { padding: 20px; border: 0.5px solid rgba(255,255,255,0.1); }
+  .pillar-icon { font-size: 24px; margin-bottom: 12px; }
+  .pillar-title { font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 6px; }
+  .pillar-text { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+  /* ===================== SLIDE 5 — CTA ===================== */
+  #slide-5 { background: #0047AB; justify-content: center; align-items: center; min-height: 100vh; position: relative; overflow: hidden; }
+  .s5-bg { position: absolute; inset: 0; }
+  .s5-circle { position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,0.08); }
+  .s5-stripe-bottom { position: absolute; bottom: 0; left: 0; right: 0; height: 6px; background: repeating-linear-gradient(90deg, #009C3B 0 33.3%, #FFD700 33.3% 66.6%, #003080 66.6% 100%); }
+  .s5-content { position: relative; z-index: 2; text-align: center; padding: 60px 40px; }
+  .s5-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 6px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+  .s5-title { font-family: 'Bebas Neue', cursive; font-size: clamp(60px, 10vw, 120px); line-height: 0.9; color: #fff; margin-bottom: 16px; }
+  .s5-title span { color: #FFD700; }
+  .s5-sub { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto 48px; line-height: 1.7; }
+  .s5-cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .cta-btn { padding: 16px 40px; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; border: none; font-weight: 600; transition: transform 0.2s; }
+  .cta-btn:hover { transform: translateY(-2px); }
+  .cta-primary { background: #FFD700; color: #0047AB; }
+  .cta-secondary { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.4); }
+  .s5-info { margin-top: 48px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+  .s5-info-item { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .s5-info-item strong { color: #FFD700; display: block; font-size: 22px; font-family: 'Bebas Neue', cursive; letter-spacing: 1px; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* NAV BUTTONS */
+  .nav-btns { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 999; }
+  .nav-btn { background: rgba(255,255,255,0.1); border: 0.5px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 24px; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .nav-btn:hover { background: rgba(255,255,255,0.2); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  @media (max-width: 900px) {
+    .events-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .s2-grid, .events-grid, .impact-grid, .pillars, .s2-cards { grid-template-columns: 1fr; }
+    .nav-dots { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav-dots" id="navDots"></nav>
+
+<div class="nav-btns">
+  <button class="nav-btn" id="btnPrev" onclick="navigate(-1)">← Anterior</button>
+  <button class="nav-btn" id="btnNext" onclick="navigate(1)">Próximo →</button>
+</div>
+
+<section class="slide" id="slide-1">
+  <div class="s1-bg"></div>
+  <div class="s1-stripe s1-stripe-top"></div>
+  <div class="s1-content">
+    <p class="s1-eyebrow">Projeto Audiovisual — Recife, 2025</p>
+    <div class="s1-logo-wrap">
+      <img src="OS CARA DA QUEBRADA TITULO.png" alt="Os Caras da Quebrada" class="s1-logo-img" onerror="this.src='OS CARA DA QUEBRADA TITULO.png'">
+    </div>
+    <p class="s1-subtitle">Gravação do Áudio Visual</p>
+    <div class="s1-badge">5 Eventos · 5 Campos · Entrada Gratuita</div>
+    <div class="s1-events">
+      <div class="event-pill"><div class="event-color" style="background:#0047AB"></div>01 — Azul</div>
+      <div class="event-pill"><div class="event-color" style="background:#009C3B"></div>02 — Verde</div>
+      <div class="event-pill"><div class="event-color" style="background:#FFD700"></div>03 — Amarelo</div>
+      <div class="event-pill"><div class="event-color" style="background:#CC0000"></div>04 — Vermelho</div>
+      <div class="event-pill"><div class="event-color" style="background:#fff"></div>05 — Branco</div>
+    </div>
+  </div>
+  <div class="s1-stripe"></div>
+</section>
+
+<section class="slide" id="slide-2" style="display:none">
+  <div class="s2-grid">
+    <div>
+      <p class="s2-label">O Artista & A Proposta</p>
+      <h2 class="s2-heading">Tocha na<br><span>Quebrada</span></h2>
+      <p class="s2-text">Um projeto audiovisual encabeçado pelo Tocha, levando cultura, música e a identidade dos campos da periferia para as telas. São cinco eventos em comunidades diferentes.</p>
+      <p class="s2-text">Ele é o responsável por convidar os demais artistas para cada evento. Cada campo tem sua própria identidade visual e camisa exclusiva, finalizando num grande evento épico.</p>
+      
+      <div class="s2-cards">
+        <div class="s2-card">
+          <div class="s2-card-num">5</div>
+          <div class="s2-card-label">Eventos Gratuitos</div>
+        </div>
+        <div class="s2-card">
+          <div class="s2-card-num">5+</div>
+          <div class="s2-card-label">Artistas Convidados</div>
+        </div>
+        <div class="s2-card">
+          <div class="s2-card-num">1</div>
+          <div class="s2-card-label">Audiovisual Completo</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <img src="tocha.jpg" alt="Tocha" class="s2-photo" onerror="this.src='tocha.jpeg'; this.onerror=function(){this.src='tocha.png'};">
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="slide-3" style="display:none">
+  <div class="s3-inner">
+    <div class="s3-header">
+      <p class="s3-label">A Jornada</p>
+      <h2 class="s3-title">Cada Campo, Uma Cor</h2>
+    </div>
+    <div class="events-grid">
+      <div class="ev-card blue">
+        <img src="camisa-azul.jpg" alt="Camisa Azul" class="ev-shirt-img" onerror="this.src='camisa-azul.png'; this.onerror=function(){this.src='camisa-azul.jpeg'};">
+        <div class="ev-number">01</div>
+        <p class="ev-event-label">Comunidade 01</p>
+        <p class="ev-name">Campo 01</p>
+        <p class="ev-cor">Azul</p>
+        <p class="ev-detail">Identidade visual inspirada no uniforme azul da Seleção. Abertura do projeto com participações e produção audiovisual ao vivo.</p>
+        <span class="ev-tag">26 de Abril, 2025</span>
+      </div>
+      
+      <div class="ev-card green">
+        <img src="camisa-verde.jpg" alt="Camisa Verde" class="ev-shirt-img" onerror="this.src='camisa-verde.png'; this.onerror=function(){this.src='camisa-verde.jpeg'};">
+        <div class="ev-number">02</div>
+        <p class="ev-event-label">Comunidade 02</p>
+        <p class="ev-name">Campo 02</p>
+        <p class="ev-cor">Verde</p>
+        <p class="ev-detail">Energia e vida nas cores do campo. Novos artistas, nova comunidade, mesma identidade forte da quebrada.</p>
+        <span class="ev-tag">A confirmar</span>
+      </div>
+      
+      <div class="ev-card yellow">
+        <img src="camisa-amarela.jpg" alt="Camisa Amarela" class="ev-shirt-img" onerror="this.src='camisa-amarela.png'; this.onerror=function(){this.src='camisa-amarela.jpeg'};">
+        <div class="ev-number">03</div>
+        <p class="ev-event-label">Comunidade 03</p>
+        <p class="ev-name">Campo 03</p>
+        <p class="ev-cor">Amarelo</p>
+        <p class="ev-detail">O amarelo que representa o ouro da periferia. Mais participações, mais comunidade, mais audiovisual.</p>
+        <span class="ev-tag">A confirmar</span>
+      </div>
+      
+      <div class="ev-card red">
+        <div class="ev-shirt-placeholder">Modelo em breve</div>
+        <div class="ev-number">04</div>
+        <p class="ev-event-label">Comunidade 04</p>
+        <p class="ev-name">Campo 04</p>
+        <p class="ev-cor">Vermelho</p>
+        <p class="ev-detail">A penúltima parada. A cor da paixão aquece o projeto antes de ir para o grande encerramento.</p>
+        <span class="ev-tag">A confirmar</span>
+      </div>
+      
+      <div class="ev-card white">
+        <div class="ev-shirt-placeholder">Modelo em breve</div>
+        <div class="ev-number">05</div>
+        <p class="ev-event-label">Grande Final</p>
+        <p class="ev-name">Campo Maior</p>
+        <p class="ev-cor">Branco</p>
+        <p class="ev-detail">O encerramento épico. Todos os artistas reunidos num campo maior e o audiovisual completo finalizado.</p>
+        <span class="ev-tag">A confirmar</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="slide-4" style="display:none">
+  <div class="s4-inner">
+    <div class="s4-header">
+      <p class="s4-label">Impacto</p>
+      <h2 class="s4-title">Por que<br>isso importa</h2>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-stat">
+        <div class="impact-num">5</div>
+        <div class="impact-desc">Comunidades Alcançadas</div>
+      </div>
+      <div class="impact-stat">
+        <div class="impact-num">100%</div>
+        <div class="impact-desc">Entrada Gratuita</div>
+      </div>
+      <div class="impact-stat">
+        <div class="impact-num">∞</div>
+        <div class="impact-desc">Histórias Reais</div>
+      </div>
+    </div>
+    <div class="impact-quote">
+      <p>"A quebrada tem talento, tem história, tem cultura. Faltava só a câmera apontada pro lugar certo."</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">⚽</div>
+        <div class="pillar-title">Futebol</div>
+        <div class="pillar-text">O campo como palco. O esporte como linguagem que une comunidades.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🎬</div>
+        <div class="pillar-title">Audiovisual</div>
+        <div class="pillar-text">Produção profissional que valoriza as histórias da periferia com qualidade.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🎤</div>
+        <div class="pillar-title">Cultura</div>
+        <div class="pillar-text">O Tocha e participações especiais mostrando o talento que nasce na quebrada.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="slide-5" style="display:none">
+  <div class="s5-bg">
+    <div class="s5-circle" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
+    <div class="s5-circle" style="width:400px;height:400px;bottom:-100px;left:-100px;"></div>
+  </div>
+  <div class="s5-content">
+    <p class="s5-eyebrow">Faça parte disso</p>
+    <h2 class="s5-title">Tamo<br><span>Junto?</span></h2>
+    <p class="s5-sub">Um projeto que nasce da quebrada e vai pro mundo. Cinco eventos, cinco cores, uma missão: mostrar que a periferia tem voz, talento e história.</p>
+    <div class="s5-cta-group">
+      <button class="cta-btn cta-primary" onclick="alert('Funcionalidade a ser implementada')">Quero Apoiar</button>
+      <button class="cta-btn cta-secondary" onclick="alert('Funcionalidade a ser implementada')">Contato</button>
+    </div>
+    <div class="s5-info">
+      <div class="s5-info-item"><strong>26 Abril</strong>Primeiro Evento</div>
+      <div class="s5-info-item"><strong>Recife</strong>Pernambuco</div>
+      <div class="s5-info-item"><strong>Gratuito</strong>Acesso Aberto</div>
+    </div>
+  </div>
+  <div class="s5-stripe-bottom"></div>
+</section>
+
+<script>
+  const slides = ['slide-1','slide-2','slide-3','slide-4','slide-5'];
+  const labels = ['Intro','Proposta','Eventos','Impacto','Contato'];
+  let current = 0;
+
+  const dotsEl = document.getElementById('navDots');
+  slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.title = labels[i];
+    btn.onclick = () => goTo(i);
+    dotsEl.appendChild(btn);
+  });
+
+  function goTo(idx) {
+    document.getElementById(slides[current]).style.display = 'none';
+    current = idx;
+    document.getElementById(slides[current]).style.display = 'flex';
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    document.getElementById('btnPrev').disabled = current === 0;
+    document.getElementById('btnNext').disabled = current === slides.length - 1;
+    window.scrollTo(0, 0);
+  }
+
+  function navigate(dir) { if (current + dir >= 0 && current + dir < slides.length) goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+  });
+
+  goTo(0);
+</script>
+</body>
+</html>
